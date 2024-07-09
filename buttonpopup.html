@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Popup Tutorial</title>
+    <style>
+        /* Basic styling for the button */
+        .popup-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Styling for the popup */
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Ensure the popup is on top */
+        }
+
+        /* Styling for the overlay */
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999; /* Ensure the overlay is behind the popup */
+        }
+
+        /* Close button styling */
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        /* Navigation buttons styling */
+        .nav-button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Button to trigger the popup -->
+<button class="popup-button" onclick="showPopup()">Show Tutorial</button>
+
+<!-- The overlay -->
+<div class="overlay" id="overlay" onclick="hidePopup()"></div>
+
+<!-- The popup -->
+<div class="popup" id="popup">
+    <span class="close-button" onclick="hidePopup()">X</span>
+    <h2>Tutorial</h2>
+    <div id="tutorial-content">
+        <!-- Tutorial pages will be injected here -->
+    </div>
+    <button class="nav-button" onclick="prevPage()" id="prev-button" disabled>Previous</button>
+    <button class="nav-button" onclick="nextPage()" id="next-button">Next</button>
+</div>
+
+<script>
+    // Array of tutorial pages content
+    const tutorialPages = [
+        `<p>This is the content of tutorial page 1.</p><img src="https://via.placeholder.com/150" alt="Sample Image 1">`,
+        `<p>This is the content of tutorial page 2.</p><img src="https://via.placeholder.com/150" alt="Sample Image 2">`,
+        `<p>This is the content of tutorial page 3.</p><img src="https://via.placeholder.com/150" alt="Sample Image 3">`
+    ];
+    let currentPage = 0;
+
+    // Function to show the popup
+    function showPopup() {
+        document.getElementById('popup').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+        displayPage();
+    }
+
+    // Function to hide the popup
+    function hidePopup() {
+        document.getElementById('popup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    // Function to display the current page
+    function displayPage() {
+        document.getElementById('tutorial-content').innerHTML = tutorialPages[currentPage];
+        document.getElementById('prev-button').disabled = currentPage === 0;
+        document.getElementById('next-button').disabled = currentPage === tutorialPages.length - 1;
+    }
+
+    // Function to go to the previous page
+    function prevPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            displayPage();
+        }
+    }
+
+    // Function to go to the next page
+    function nextPage() {
+        if (currentPage < tutorialPages.length - 1) {
+            currentPage++;
+            displayPage();
+        }
+    }
+</script>
+
+</body>
+</html>
